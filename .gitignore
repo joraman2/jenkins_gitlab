@@ -8,6 +8,5 @@
 !data/jenkins/.gitkeep
 
 !data/nginx/*
-
-data/nginx/certs
 !data/nginx/certs/.gitkeep
+data/nginx/certs/*.pem
