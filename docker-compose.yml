@@ -6,7 +6,7 @@ services:
     hostname: 'gitlab.amorosandr.eu'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://gitlab.amorosandr.eu'
+        external_url 'http://gitlab.amorosandr.eu'
     ports:
       - '8080:80'
       - '8443:443'
@@ -34,5 +34,6 @@ services:
     image: nginx:1.16.0-alpine
     volumes:
       - '$NGINX_HOME/jenkins-gitlab.conf:/etc/nginx/conf.d/jenkins-gitlab.conf:ro'
+      - $NGINX_HOME/certs:/etc/nginx/ssl/extracerts
     ports:
       - "8080:80"      
