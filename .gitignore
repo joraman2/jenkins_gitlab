@@ -1,0 +1,10 @@
+./data
+
+!data/.gitkeep
+!data/gitlab/configs/.gitkeep
+!data/gitlab/data/.gitkeep
+!data/gitlab/logs/.gitkeep
+
+!data/jenkins/.gitkeep
+
+!data/nginx/*
