@@ -9,5 +9,5 @@
 
 !data/nginx/*
 
-data/nginx/certs/
+data/nginx/certs
 !data/nginx/certs/.gitkeep

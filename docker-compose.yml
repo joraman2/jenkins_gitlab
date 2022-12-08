@@ -1,7 +1,15 @@
 version: '3.8'
+
+networks:
+  cicdnet:
+    ipam:
+      config:
+        - subnet: 172.11.0.0/16
+
 services:
   gitlab:
     image: 'gitlab/gitlab-ee:latest'
+    container_name: gitlab
     restart: always
     hostname: 'gitlab.amorosandr.eu'
     environment:
@@ -16,24 +24,38 @@ services:
       - '$GITLAB_HOME/logs:/var/log/gitlab'
       - '$GITLAB_HOME/data:/var/opt/gitlab'
     shm_size: '256m'
+    extra_hosts:
+      - "gitlab.amorosandr.eu:192.168.0.105"
+    networks:
+      - cicdnet
 
   jenkins:
     image: jenkins/jenkins:lts
+    container_name: jenkins
     privileged: true
     user: root
     ports:
       - 8081:8080
       - 50000:50000
-    container_name: jenkins
     volumes:
       - '$JENKINS_HOME:/var/jenkins_home'
       - /var/run/docker.sock:/var/run/docker.sock
-      - /usr/local/bin/docker:/usr/local/bin/docker    
+      - /usr/local/bin/docker:/usr/local/bin/docker 
+    networks:
+      - cicdnet         
 
   nginx:
     image: nginx:1.16.0-alpine
+    container_name: nginx
     volumes:
       - '$NGINX_HOME/jenkins-gitlab.conf:/etc/nginx/conf.d/jenkins-gitlab.conf:ro'
       - $NGINX_HOME/certs:/etc/nginx/ssl/extracerts
     ports:
-      - "8080:80"      
+      - "80:80"
+      - "443:443"    
+    networks:
+      - cicdnet     
+
+
+
+
